@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Countdown</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('bg.jpg') no-repeat center center/cover;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-shadow: 0 0 10px #000;
+        font-family: 'Helvetica', sans-serif;
+        overflow: hidden;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #countdown {
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    /* Floating sparkles */
+    .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Stranger Things to come...</h1>
+<div id="countdown"></div>
+
+<audio id="bgm" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Countdown timer
+    const target = new Date("December 26, 2025 06:30:00").getTime();
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = target - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+        const secs = Math.floor((diff % (1000*60)) / 1000);
+
+        document.getElementById("countdown").innerText =
+            `${days}d ${hours}h ${mins}m ${secs}s`;
+    }, 1000);
+
+    // Sparkles
+    function createSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = Math.random() * window.innerWidth + "px";
+        sparkle.style.top = (window.innerHeight + 20) + "px";
+        sparkle.style.animationDuration = (3 + Math.random()*3) + "s";
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 6000);
+    }
+
+    setInterval(createSparkle, 150);
+</script>
+
+</body>
+</html>
